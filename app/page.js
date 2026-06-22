@@ -30,7 +30,6 @@ export default function Home() {
         try {
             const res = await fetch('/api/reviews');
             const data = await res.json();
-            // Only show approved reviews
             const approved = data.filter(r => r.approved === true);
             setReviews(approved);
         } catch (error) {
@@ -130,7 +129,7 @@ export default function Home() {
 
     return (
         <>
-            {/* PREMIUM WELCOME CARD */}
+            {/* PREMIUM WELCOME CARD - MOBILE RESPONSIVE */}
             {showWelcome && (
                 <div
                     style={{
@@ -143,6 +142,7 @@ export default function Home() {
                         background: 'rgba(42,157,143,0.4)',
                         backdropFilter: 'blur(10px)',
                         WebkitBackdropFilter: 'blur(10px)',
+                        padding: '20px'
                     }}
                 >
                     <div
@@ -156,6 +156,8 @@ export default function Home() {
                                 '0 25px 80px rgba(0,0,0,0.15), 0 0 40px rgba(42,157,143,0.2)',
                             animation:
                                 'gradientMove 5s ease infinite, fadeSlide 4s ease-in-out forwards',
+                            width: '100%',
+                            maxWidth: '480px'
                         }}
                     >
                         <div
@@ -163,22 +165,23 @@ export default function Home() {
                                 background: 'rgba(255,255,255,0.96)',
                                 backdropFilter: 'blur(20px)',
                                 borderRadius: '30px',
-                                padding: '55px 70px',
-                                minWidth: '420px',
+                                padding: 'clamp(30px, 6vw, 55px) clamp(20px, 5vw, 70px)',
                                 textAlign: 'center',
+                                width: '100%'
                             }}
+                            className="welcome-card"
                         >
                             <div
                                 style={{
-                                    width: '100px',
-                                    height: '100px',
-                                    margin: '0 auto 24px',
+                                    width: 'clamp(60px, 12vw, 100px)',
+                                    height: 'clamp(60px, 12vw, 100px)',
+                                    margin: '0 auto 20px',
                                     borderRadius: '50%',
                                     background: 'linear-gradient(135deg,#2A9D8F,#B8E6D9)',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    fontSize: '48px',
+                                    fontSize: 'clamp(30px, 6vw, 48px)',
                                     color: '#fff',
                                     boxShadow: '0 15px 40px rgba(42,157,143,0.3)',
                                 }}
@@ -188,7 +191,7 @@ export default function Home() {
 
                             <h1
                                 style={{
-                                    fontSize: '54px',
+                                    fontSize: 'clamp(32px, 8vw, 54px)',
                                     fontWeight: 800,
                                     color: '#1a2e2a',
                                     margin: 0,
@@ -200,8 +203,8 @@ export default function Home() {
 
                             <p
                                 style={{
-                                    marginTop: '14px',
-                                    fontSize: '20px',
+                                    marginTop: '10px',
+                                    fontSize: 'clamp(16px, 4vw, 20px)',
                                     color: '#5a7a72',
                                     fontWeight: 500,
                                 }}
@@ -211,9 +214,9 @@ export default function Home() {
 
                             <div
                                 style={{
-                                    width: '90px',
+                                    width: 'clamp(60px, 12vw, 90px)',
                                     height: '4px',
-                                    margin: '22px auto 0',
+                                    margin: '16px auto 0',
                                     borderRadius: '999px',
                                     background: 'linear-gradient(90deg,#2A9D8F,#B8E6D9)',
                                 }}
@@ -223,8 +226,8 @@ export default function Home() {
                 </div>
             )}
 
-            {/* HERO SECTION - FULL SCREEN WITH VIDEO BACKGROUND */}
-            <section className="relative h-screen flex items-center justify-center overflow-hidden">
+            {/* HERO SECTION - MOBILE RESPONSIVE */}
+            <section className="relative h-screen min-h-[500px] flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0">
                     <video
                         autoPlay
@@ -251,43 +254,45 @@ export default function Home() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
                     >
-                        <h1 style={{
-                            fontSize: 'clamp(3.5rem, 10vw, 8rem)',
+                        <h1 className="hero-title" style={{
+                            fontSize: 'clamp(2rem, 8vw, 8rem)',
                             fontWeight: 800,
-                            marginBottom: '1.5rem',
-                            lineHeight: '1.05',
+                            marginBottom: 'clamp(0.8rem, 2vw, 1.5rem)',
+                            lineHeight: '1.1',
                             textShadow: '0 4px 40px rgba(0,0,0,0.6)'
                         }}>
                             Professional
                             <span style={{
                                 color: '#34D399',
                                 display: 'block',
-                                fontSize: 'clamp(3rem, 8vw, 7rem)'
+                                fontSize: 'clamp(1.6rem, 6vw, 7rem)'
                             }}>Cleaning Services</span>
                         </h1>
 
-                        <p style={{
-                            fontSize: 'clamp(1.3rem, 2.8vw, 2.5rem)',
+                        <p className="hero-subtitle" style={{
+                            fontSize: 'clamp(1rem, 2.5vw, 2.5rem)',
                             maxWidth: '950px',
-                            margin: '0 auto 2.5rem',
-                            lineHeight: '1.6',
+                            margin: '0 auto clamp(1rem, 2vw, 2.5rem)',
+                            lineHeight: '1.5',
                             textShadow: '0 2px 25px rgba(0,0,0,0.6)',
                             fontWeight: 500,
                             color: 'white',
-                            letterSpacing: '0.5px'
+                            letterSpacing: '0.5px',
+                            padding: '0 10px'
                         }}>
                             Experience premium cleaning with eco-friendly products, professional team, and 100% satisfaction guarantee.
                         </p>
 
                         <Link
                             href="/contact"
+                            className="hero-button"
                             style={{
                                 display: 'inline-block',
                                 backgroundColor: 'white',
                                 color: '#2A9D8F',
-                                padding: '20px 56px',
+                                padding: 'clamp(12px, 2vw, 20px) clamp(24px, 4vw, 56px)',
                                 borderRadius: '9999px',
-                                fontSize: 'clamp(1.2rem, 2vw, 1.8rem)',
+                                fontSize: 'clamp(0.9rem, 1.5vw, 1.8rem)',
                                 fontWeight: 600,
                                 textDecoration: 'none',
                                 transition: 'all 0.3s ease',
@@ -315,19 +320,19 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* SERVICES SECTION */}
+            {/* SERVICES SECTION - MOBILE RESPONSIVE */}
             <motion.section
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
                 variants={fadeUp}
-                style={{ padding: '64px 20px', backgroundColor: '#F0F7F4' }}
+                style={{ padding: 'clamp(40px, 6vw, 64px) 20px', backgroundColor: '#F0F7F4' }}
             >
                 <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
                     <motion.h2
                         variants={fadeUp}
                         style={{
-                            fontSize: '32px',
+                            fontSize: 'clamp(24px, 4vw, 32px)',
                             fontWeight: 'bold',
                             textAlign: 'center',
                             marginBottom: '8px',
@@ -341,7 +346,9 @@ export default function Home() {
                         style={{
                             textAlign: 'center',
                             color: '#5a7a72',
-                            marginBottom: '48px'
+                            marginBottom: 'clamp(30px, 5vw, 48px)',
+                            fontSize: 'clamp(14px, 1.5vw, 18px)',
+                            padding: '0 10px'
                         }}
                     >
                         Professional cleaning tailored to your needs
@@ -352,10 +359,11 @@ export default function Home() {
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, amount: 0.1 }}
+                        className="services-grid"
                         style={{
                             display: 'grid',
                             gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                            gap: '32px'
+                            gap: 'clamp(20px, 3vw, 32px)'
                         }}
                     >
                         {services.map((service, index) => (
@@ -367,13 +375,14 @@ export default function Home() {
                                     borderRadius: '20px',
                                     overflow: 'hidden',
                                     boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
-                                    transition: 'transform 0.3s ease'
+                                    transition: 'transform 0.3s ease',
+                                    width: '100%'
                                 }}
                                 whileHover={{ y: -8 }}
                             >
                                 <div
                                     style={{
-                                        height: '220px',
+                                        height: 'clamp(180px, 30vw, 220px)',
                                         backgroundColor: '#E8F3F0',
                                         position: 'relative',
                                         overflow: 'hidden'
@@ -390,10 +399,10 @@ export default function Home() {
                                         className="hover:scale-105"
                                     />
                                 </div>
-                                <div style={{ padding: '24px' }}>
+                                <div style={{ padding: 'clamp(16px, 2vw, 24px)' }}>
                                     <h3
                                         style={{
-                                            fontSize: '20px',
+                                            fontSize: 'clamp(18px, 2vw, 20px)',
                                             fontWeight: 'bold',
                                             marginBottom: '8px',
                                             color: '#1a2e2a'
@@ -404,7 +413,8 @@ export default function Home() {
                                     <p
                                         style={{
                                             color: '#5a7a72',
-                                            margin: 0
+                                            margin: 0,
+                                            fontSize: 'clamp(14px, 1.2vw, 16px)'
                                         }}
                                     >
                                         {service.description}
@@ -424,7 +434,7 @@ export default function Home() {
                     viewport={{ once: true, amount: 0.2 }}
                     variants={fadeIn}
                     style={{
-                        padding: '64px 20px',
+                        padding: 'clamp(40px, 6vw, 64px) 20px',
                         backgroundColor: '#FFFFFF'
                     }}
                 >
@@ -432,7 +442,7 @@ export default function Home() {
                         <motion.h2
                             variants={fadeUp}
                             style={{
-                                fontSize: '32px',
+                                fontSize: 'clamp(24px, 4vw, 32px)',
                                 fontWeight: 'bold',
                                 textAlign: 'center',
                                 marginBottom: '8px',
@@ -446,7 +456,8 @@ export default function Home() {
                             style={{
                                 textAlign: 'center',
                                 color: '#5a7a72',
-                                marginBottom: '48px'
+                                marginBottom: 'clamp(30px, 5vw, 48px)',
+                                fontSize: 'clamp(14px, 1.5vw, 18px)'
                             }}
                         >
                             Real reviews from our satisfied customers
@@ -457,6 +468,7 @@ export default function Home() {
                             initial="hidden"
                             whileInView="visible"
                             viewport={{ once: true, amount: 0.1 }}
+                            className="reviews-grid"
                             style={{
                                 display: 'grid',
                                 gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
@@ -470,37 +482,38 @@ export default function Home() {
                                     style={{
                                         backgroundColor: '#F0F7F4',
                                         borderRadius: '16px',
-                                        padding: '24px',
+                                        padding: 'clamp(16px, 2vw, 24px)',
                                         transition: 'transform 0.3s ease'
                                     }}
                                     whileHover={{ y: -4 }}
                                 >
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
                                         <div style={{
-                                            width: '48px',
-                                            height: '48px',
+                                            width: 'clamp(40px, 6vw, 48px)',
+                                            height: 'clamp(40px, 6vw, 48px)',
                                             borderRadius: '50%',
                                             background: 'linear-gradient(135deg, #2A9D8F, #B8E6D9)',
                                             display: 'flex',
                                             alignItems: 'center',
                                             justifyContent: 'center',
                                             color: 'white',
-                                            fontSize: '20px',
-                                            fontWeight: 'bold'
+                                            fontSize: 'clamp(16px, 2vw, 20px)',
+                                            fontWeight: 'bold',
+                                            flexShrink: 0
                                         }}>
                                             {review.name.charAt(0)}
                                         </div>
                                         <div>
-                                            <h4 style={{ fontWeight: '600', color: '#1a2e2a' }}>{review.name}</h4>
-                                            <p style={{ fontSize: '13px', color: '#5a7a72' }}>{review.location}</p>
+                                            <h4 style={{ fontWeight: '600', color: '#1a2e2a', fontSize: 'clamp(14px, 1.5vw, 16px)' }}>{review.name}</h4>
+                                            <p style={{ fontSize: 'clamp(12px, 1.2vw, 13px)', color: '#5a7a72' }}>{review.location}</p>
                                         </div>
                                     </div>
                                     <div style={{ display: 'flex', gap: '2px', marginBottom: '10px' }}>
                                         {[...Array(review.rating || 5)].map((_, i) => (
-                                            <span key={i} style={{ color: '#F59E0B', fontSize: '18px' }}>★</span>
+                                            <span key={i} style={{ color: '#F59E0B', fontSize: 'clamp(16px, 1.5vw, 18px)' }}>★</span>
                                         ))}
                                     </div>
-                                    <p style={{ color: '#1a2e2a', lineHeight: '1.6' }}>"{review.text}"</p>
+                                    <p style={{ color: '#1a2e2a', lineHeight: '1.6', fontSize: 'clamp(14px, 1.2vw, 15px)' }}>"{review.text}"</p>
                                 </motion.div>
                             ))}
                         </motion.div>
@@ -508,22 +521,22 @@ export default function Home() {
                 </motion.section>
             )}
 
-            {/* REVIEW FORM SECTION */}
+            {/* REVIEW FORM SECTION - MOBILE RESPONSIVE */}
             <motion.section
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
                 variants={fadeIn}
                 style={{
-                    padding: '64px 20px',
+                    padding: 'clamp(40px, 6vw, 64px) 20px',
                     backgroundColor: '#F0F7F4'
                 }}
             >
-                <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+                <div style={{ maxWidth: '700px', margin: '0 auto', padding: '0 10px' }}>
                     <motion.h2
                         variants={fadeUp}
                         style={{
-                            fontSize: '28px',
+                            fontSize: 'clamp(24px, 4vw, 28px)',
                             fontWeight: 'bold',
                             textAlign: 'center',
                             color: '#1a2e2a',
@@ -537,8 +550,8 @@ export default function Home() {
                         style={{
                             textAlign: 'center',
                             color: '#5a7a72',
-                            marginBottom: '32px',
-                            fontSize: '15px'
+                            marginBottom: 'clamp(24px, 3vw, 32px)',
+                            fontSize: 'clamp(14px, 1.5vw, 16px)'
                         }}
                     >
                         Share your experience with us
@@ -548,10 +561,14 @@ export default function Home() {
                         <form onSubmit={handleReviewSubmit} style={{
                             backgroundColor: 'white',
                             borderRadius: '20px',
-                            padding: '32px',
+                            padding: 'clamp(20px, 3vw, 32px)',
                             boxShadow: '0 10px 30px rgba(0,0,0,0.06)'
                         }}>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                            <div style={{
+                                display: 'grid',
+                                gridTemplateColumns: '1fr 1fr',
+                                gap: '16px'
+                            }} className="review-grid">
                                 <input
                                     type="text"
                                     placeholder="Your Name"
@@ -559,13 +576,14 @@ export default function Home() {
                                     value={reviewForm.name}
                                     onChange={(e) => setReviewForm({ ...reviewForm, name: e.target.value })}
                                     style={{
-                                        padding: '12px 16px',
+                                        padding: 'clamp(10px, 1.5vw, 14px) 16px',
                                         borderRadius: '12px',
                                         border: '1.5px solid #E8F3F0',
-                                        fontSize: '14px',
+                                        fontSize: 'clamp(13px, 1.2vw, 15px)',
                                         outline: 'none',
                                         transition: 'border-color 0.3s ease',
-                                        backgroundColor: '#FAFDFC'
+                                        backgroundColor: '#FAFDFC',
+                                        width: '100%'
                                     }}
                                     onFocus={(e) => e.target.style.borderColor = '#2A9D8F'}
                                     onBlur={(e) => e.target.style.borderColor = '#E8F3F0'}
@@ -576,13 +594,14 @@ export default function Home() {
                                     value={reviewForm.location}
                                     onChange={(e) => setReviewForm({ ...reviewForm, location: e.target.value })}
                                     style={{
-                                        padding: '12px 16px',
+                                        padding: 'clamp(10px, 1.5vw, 14px) 16px',
                                         borderRadius: '12px',
                                         border: '1.5px solid #E8F3F0',
-                                        fontSize: '14px',
+                                        fontSize: 'clamp(13px, 1.2vw, 15px)',
                                         outline: 'none',
                                         transition: 'border-color 0.3s ease',
-                                        backgroundColor: '#FAFDFC'
+                                        backgroundColor: '#FAFDFC',
+                                        width: '100%'
                                     }}
                                     onFocus={(e) => e.target.style.borderColor = '#2A9D8F'}
                                     onBlur={(e) => e.target.style.borderColor = '#E8F3F0'}
@@ -591,15 +610,15 @@ export default function Home() {
 
                             {/* Star Rating */}
                             <div style={{ marginTop: '16px', marginBottom: '16px' }}>
-                                <p style={{ fontSize: '14px', color: '#5a7a72', marginBottom: '8px' }}>Rating</p>
-                                <div style={{ display: 'flex', gap: '8px' }}>
+                                <p style={{ fontSize: 'clamp(13px, 1.2vw, 15px)', color: '#5a7a72', marginBottom: '8px' }}>Rating</p>
+                                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                                     {[1, 2, 3, 4, 5].map((star) => (
                                         <button
                                             key={star}
                                             type="button"
                                             onClick={() => setReviewForm({ ...reviewForm, rating: star })}
                                             style={{
-                                                fontSize: '28px',
+                                                fontSize: 'clamp(24px, 4vw, 28px)',
                                                 background: 'none',
                                                 border: 'none',
                                                 cursor: 'pointer',
@@ -623,10 +642,10 @@ export default function Home() {
                                 onChange={(e) => setReviewForm({ ...reviewForm, text: e.target.value })}
                                 style={{
                                     width: '100%',
-                                    padding: '12px 16px',
+                                    padding: 'clamp(10px, 1.5vw, 14px) 16px',
                                     borderRadius: '12px',
                                     border: '1.5px solid #E8F3F0',
-                                    fontSize: '14px',
+                                    fontSize: 'clamp(13px, 1.2vw, 15px)',
                                     outline: 'none',
                                     resize: 'vertical',
                                     transition: 'border-color 0.3s ease',
@@ -643,12 +662,12 @@ export default function Home() {
                                 style={{
                                     width: '100%',
                                     marginTop: '16px',
-                                    padding: '14px',
+                                    padding: 'clamp(12px, 1.5vw, 16px)',
                                     background: reviewSubmitting ? '#94A3B8' : '#2A9D8F',
                                     color: 'white',
                                     border: 'none',
                                     borderRadius: '12px',
-                                    fontSize: '16px',
+                                    fontSize: 'clamp(14px, 1.5vw, 16px)',
                                     fontWeight: 600,
                                     cursor: reviewSubmitting ? 'not-allowed' : 'pointer',
                                     transition: 'all 0.3s ease'
@@ -667,7 +686,7 @@ export default function Home() {
                                 <p style={{
                                     marginTop: '12px',
                                     textAlign: 'center',
-                                    fontSize: '14px',
+                                    fontSize: 'clamp(13px, 1.2vw, 14px)',
                                     color: reviewSubmitStatus === 'success' ? '#065F46' : '#991B1B'
                                 }}>
                                     {reviewSubmitStatus === 'success' ? '✅ Thank you! Your review has been submitted for approval.' : '❌ Failed to submit review. Please try again.'}
@@ -678,14 +697,14 @@ export default function Home() {
                 </div>
             </motion.section>
 
-            {/* CTA SECTION */}
+            {/* CTA SECTION - MOBILE RESPONSIVE */}
             <motion.section
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
                 variants={fadeIn}
                 style={{
-                    padding: '64px 20px',
+                    padding: 'clamp(40px, 6vw, 64px) 20px',
                     background: 'linear-gradient(135deg, #2A9D8F, #238276)',
                     color: 'white',
                     textAlign: 'center'
@@ -694,13 +713,22 @@ export default function Home() {
                 <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
                     <motion.h2
                         variants={fadeUp}
-                        style={{ fontSize: '32px', fontWeight: 'bold', marginBottom: '16px' }}
+                        style={{
+                            fontSize: 'clamp(24px, 4vw, 32px)',
+                            fontWeight: 'bold',
+                            marginBottom: '16px'
+                        }}
                     >
                         Ready for a Clean Space?
                     </motion.h2>
                     <motion.p
                         variants={fadeUp}
-                        style={{ marginBottom: '24px', opacity: 0.9 }}
+                        style={{
+                            marginBottom: '24px',
+                            opacity: 0.9,
+                            fontSize: 'clamp(14px, 1.5vw, 18px)',
+                            padding: '0 10px'
+                        }}
                     >
                         Contact us today for a free quote
                     </motion.p>
@@ -711,9 +739,10 @@ export default function Home() {
                                 display: 'inline-block',
                                 backgroundColor: 'white',
                                 color: '#2A9D8F',
-                                padding: '12px 32px',
+                                padding: 'clamp(12px, 1.5vw, 16px) clamp(24px, 4vw, 40px)',
                                 borderRadius: '9999px',
-                                fontWeight: '600',
+                                fontSize: 'clamp(14px, 1.5vw, 18px)',
+                                fontWeight: 600,
                                 textDecoration: 'none',
                                 transition: 'all 0.3s ease'
                             }}
@@ -757,6 +786,67 @@ export default function Home() {
                     100% {
                         opacity: 0;
                         transform: scale(0.9) translateY(-30px);
+                    }
+                }
+
+                /* Mobile Responsive */
+                @media (max-width: 768px) {
+                    .review-grid {
+                        grid-template-columns: 1fr !important;
+                    }
+                    
+                    .services-grid {
+                        grid-template-columns: 1fr !important;
+                    }
+                    
+                    .reviews-grid {
+                        grid-template-columns: 1fr !important;
+                    }
+                    
+                    .hero-section {
+                        height: 70vh !important;
+                        min-height: 400px !important;
+                    }
+                    
+                    .container-premium {
+                        padding-left: 16px !important;
+                        padding-right: 16px !important;
+                    }
+
+                    .welcome-card {
+                        padding: 30px 20px !important;
+                    }
+
+                    .hero-title {
+                        font-size: clamp(1.8rem, 6vw, 2.5rem) !important;
+                    }
+
+                    .hero-subtitle {
+                        font-size: clamp(0.9rem, 2.5vw, 1.1rem) !important;
+                    }
+
+                    .hero-button {
+                        padding: 12px 28px !important;
+                        font-size: 0.95rem !important;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    .welcome-card {
+                        padding: 20px 16px !important;
+                    }
+                    
+                    .hero-title {
+                        font-size: 1.6rem !important;
+                    }
+                    
+                    .hero-subtitle {
+                        font-size: 0.85rem !important;
+                    }
+                    
+                    .hero-button {
+                        padding: 10px 20px !important;
+                        font-size: 0.85rem !important;
                     }
                 }
             `}</style>
