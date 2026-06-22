@@ -15,11 +15,6 @@ const options = {
     retryWrites: true,
     retryReads: true,
     tls: true,
-    tlsAllowInvalidCertificates: false,
-    tlsAllowInvalidHostnames: false,
-    // Add SSL/TLS options for Vercel
-    ssl: true,
-    sslValidate: true,
 };
 
 let client;
