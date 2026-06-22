@@ -1,17 +1,11 @@
 import { NextResponse } from 'next/server';
-import { writeFile, mkdir } from 'fs/promises';
-import path from 'path';
-
-// In-memory storage for services
-let services = [];
+import clientPromise from '@/app/lib/mongodb';
 
 export async function POST(req) {
     try {
-        const formData = await req.formData();
-        const title = formData.get('title');
-        const description = formData.get('description');
-        const shortDesc = formData.get('shortDesc');
-        const imageFile = formData.get('image');
+        // Parse JSON body (not form-data)
+        const body = await req.json();
+        const { title, description, shortDesc, image } = body;
 
         if (!title || !description) {
             return NextResponse.json(
@@ -20,43 +14,23 @@ export async function POST(req) {
             );
         }
 
-        let imageUrl = '/images/service-home.jpg';
-
-        // Upload image if provided
-        if (imageFile && imageFile.size > 0) {
-            const bytes = await imageFile.arrayBuffer();
-            const buffer = Buffer.from(bytes);
-
-            // Create unique filename
-            const timestamp = Date.now();
-            const ext = imageFile.name.split('.').pop();
-            const filename = `service-${timestamp}.${ext}`;
-
-            // Save to public/uploads
-            const uploadDir = path.join(process.cwd(), 'public/uploads');
-            await mkdir(uploadDir, { recursive: true });
-
-            const filePath = path.join(uploadDir, filename);
-            await writeFile(filePath, buffer);
-
-            imageUrl = `/uploads/${filename}`;
-        }
+        const client = await clientPromise;
+        const db = client.db('sparkclean');
 
         const newService = {
-            _id: Date.now().toString(),
             title,
             description,
             shortDesc: shortDesc || description.slice(0, 60),
-            image: imageUrl,
+            image: image || '/images/service-home.jpg',
             createdAt: new Date(),
             updatedAt: new Date()
         };
 
-        services.push(newService);
+        const result = await db.collection('services').insertOne(newService);
 
         return NextResponse.json({
             success: true,
-            id: newService._id,
+            id: result.insertedId,
             service: newService
         });
 
@@ -67,8 +41,4 @@ export async function POST(req) {
             { status: 500 }
         );
     }
-}
-
-export async function GET() {
-    return NextResponse.json(services);
 }
