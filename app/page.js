@@ -129,7 +129,7 @@ export default function Home() {
 
     return (
         <>
-            {/* PREMIUM WELCOME CARD - MOBILE RESPONSIVE */}
+            {/* PREMIUM WELCOME CARD */}
             {showWelcome && (
                 <div
                     style={{
@@ -226,9 +226,17 @@ export default function Home() {
                 </div>
             )}
 
-            {/* HERO SECTION - MOBILE FIXED */}
-            <section className="relative h-screen min-h-[400px] flex items-center justify-center overflow-hidden" style={{ marginTop: 0 }}>
-                {/* Video Background - Fixed for mobile */}
+            {/* HERO SECTION - NO EXTRA SPACE */}
+            <section
+                className="relative flex items-center justify-center overflow-hidden"
+                style={{
+                    minHeight: 'calc(100vh - 70px)',
+                    marginTop: 0,
+                    paddingTop: 0,
+                    backgroundColor: '#1a2e2a'
+                }}
+            >
+                {/* Video Background */}
                 <div className="absolute inset-0">
                     <video
                         autoPlay
@@ -242,12 +250,12 @@ export default function Home() {
                     </video>
                 </div>
 
-                {/* Simplified overlay - less blur on mobile */}
-                <div className="absolute inset-0 bg-black/50" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+                {/* Dark Overlay */}
+                <div className="absolute inset-0 bg-black/60" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
-                {/* Content - better centered on mobile */}
-                <div className="relative z-10 container-premium text-center text-white px-4">
+                {/* Content */}
+                <div className="relative z-10 container-premium text-center text-white px-4 py-8">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -255,7 +263,7 @@ export default function Home() {
                         className="w-full"
                     >
                         <h1 className="hero-title" style={{
-                            fontSize: 'clamp(2rem, 8vw, 8rem)',
+                            fontSize: 'clamp(2.2rem, 8vw, 8rem)',
                             fontWeight: 800,
                             marginBottom: 'clamp(0.8rem, 2vw, 1.5rem)',
                             lineHeight: '1.1',
@@ -265,12 +273,12 @@ export default function Home() {
                             <span style={{
                                 color: '#34D399',
                                 display: 'block',
-                                fontSize: 'clamp(1.6rem, 6vw, 7rem)'
+                                fontSize: 'clamp(1.8rem, 6vw, 7rem)'
                             }}>Cleaning Services</span>
                         </h1>
 
                         <p className="hero-subtitle" style={{
-                            fontSize: 'clamp(0.9rem, 2.5vw, 2.5rem)',
+                            fontSize: 'clamp(1rem, 2.5vw, 2.5rem)',
                             maxWidth: '950px',
                             margin: '0 auto clamp(1rem, 2vw, 2.5rem)',
                             lineHeight: '1.4',
@@ -278,7 +286,7 @@ export default function Home() {
                             fontWeight: 500,
                             color: 'white',
                             letterSpacing: '0.3px',
-                            padding: '0 5px'
+                            padding: '0 10px'
                         }}>
                             Experience premium cleaning with eco-friendly products, professional team, and 100% satisfaction guarantee.
                         </p>
@@ -292,7 +300,7 @@ export default function Home() {
                                 color: '#2A9D8F',
                                 padding: 'clamp(12px, 2vw, 20px) clamp(24px, 4vw, 56px)',
                                 borderRadius: '9999px',
-                                fontSize: 'clamp(0.85rem, 1.5vw, 1.8rem)',
+                                fontSize: 'clamp(0.9rem, 1.5vw, 1.8rem)',
                                 fontWeight: 600,
                                 textDecoration: 'none',
                                 transition: 'all 0.3s ease',
@@ -320,7 +328,7 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* SERVICES SECTION - REDUCED SPACING */}
+            {/* SERVICES SECTION */}
             <motion.section
                 initial="hidden"
                 whileInView="visible"
@@ -805,11 +813,6 @@ export default function Home() {
                     
                     .reviews-grid {
                         grid-template-columns: 1fr !important;
-                    }
-                    
-                    .hero-section {
-                        height: 70vh !important;
-                        min-height: 400px !important;
                     }
                     
                     .container-premium {
