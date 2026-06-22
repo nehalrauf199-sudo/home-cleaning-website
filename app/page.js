@@ -7,6 +7,14 @@ import { motion } from 'framer-motion';
 export default function Home() {
     const [showWelcome, setShowWelcome] = useState(true);
     const [reviews, setReviews] = useState([]);
+    const [reviewForm, setReviewForm] = useState({
+        name: '',
+        location: '',
+        text: '',
+        rating: 5
+    });
+    const [reviewSubmitting, setReviewSubmitting] = useState(false);
+    const [reviewSubmitStatus, setReviewSubmitStatus] = useState(null);
 
     useEffect(() => {
         const timer = setTimeout(() => setShowWelcome(false), 3500);
@@ -27,6 +35,42 @@ export default function Home() {
             setReviews(approved);
         } catch (error) {
             console.error('Error fetching reviews:', error);
+        }
+    };
+
+    // Submit review
+    const handleReviewSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!reviewForm.name || !reviewForm.text) {
+            alert('Please fill in all required fields');
+            return;
+        }
+
+        setReviewSubmitting(true);
+        setReviewSubmitStatus(null);
+
+        try {
+            const res = await fetch('/api/reviews', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(reviewForm)
+            });
+
+            const data = await res.json();
+
+            if (data.success) {
+                setReviewSubmitStatus('success');
+                setReviewForm({ name: '', location: '', text: '', rating: 5 });
+                fetchReviews();
+            } else {
+                setReviewSubmitStatus('error');
+            }
+        } catch (error) {
+            console.error('Error submitting review:', error);
+            setReviewSubmitStatus('error');
+        } finally {
+            setReviewSubmitting(false);
         }
     };
 
@@ -181,7 +225,6 @@ export default function Home() {
 
             {/* HERO SECTION - FULL SCREEN WITH VIDEO BACKGROUND */}
             <section className="relative h-screen flex items-center justify-center overflow-hidden">
-                {/* Video Background with Blur */}
                 <div className="absolute inset-0">
                     <video
                         autoPlay
@@ -199,11 +242,9 @@ export default function Home() {
                     </video>
                 </div>
 
-                {/* Greenish-Blue Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-[#2A9D8F]/30 to-black/70" />
                 <div className="absolute inset-0 bg-gradient-to-r from-[#2A9D8F]/20 to-[#1a2e2a]/30" />
 
-                {/* Content */}
                 <div className="relative z-10 container-premium text-center text-white px-4">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
@@ -274,7 +315,7 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* SERVICES SECTION - WITH FADE UP ANIMATION */}
+            {/* SERVICES SECTION */}
             <motion.section
                 initial="hidden"
                 whileInView="visible"
@@ -467,7 +508,177 @@ export default function Home() {
                 </motion.section>
             )}
 
-            {/* CTA SECTION - WITH FADE IN ANIMATION */}
+            {/* REVIEW FORM SECTION */}
+            <motion.section
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                variants={fadeIn}
+                style={{
+                    padding: '64px 20px',
+                    backgroundColor: '#F0F7F4'
+                }}
+            >
+                <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+                    <motion.h2
+                        variants={fadeUp}
+                        style={{
+                            fontSize: '28px',
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                            color: '#1a2e2a',
+                            marginBottom: '8px'
+                        }}
+                    >
+                        Leave a <span style={{ color: '#2A9D8F' }}>Review</span>
+                    </motion.h2>
+                    <motion.p
+                        variants={fadeUp}
+                        style={{
+                            textAlign: 'center',
+                            color: '#5a7a72',
+                            marginBottom: '32px',
+                            fontSize: '15px'
+                        }}
+                    >
+                        Share your experience with us
+                    </motion.p>
+
+                    <motion.div variants={fadeUp}>
+                        <form onSubmit={handleReviewSubmit} style={{
+                            backgroundColor: 'white',
+                            borderRadius: '20px',
+                            padding: '32px',
+                            boxShadow: '0 10px 30px rgba(0,0,0,0.06)'
+                        }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                                <input
+                                    type="text"
+                                    placeholder="Your Name"
+                                    required
+                                    value={reviewForm.name}
+                                    onChange={(e) => setReviewForm({ ...reviewForm, name: e.target.value })}
+                                    style={{
+                                        padding: '12px 16px',
+                                        borderRadius: '12px',
+                                        border: '1.5px solid #E8F3F0',
+                                        fontSize: '14px',
+                                        outline: 'none',
+                                        transition: 'border-color 0.3s ease',
+                                        backgroundColor: '#FAFDFC'
+                                    }}
+                                    onFocus={(e) => e.target.style.borderColor = '#2A9D8F'}
+                                    onBlur={(e) => e.target.style.borderColor = '#E8F3F0'}
+                                />
+                                <input
+                                    type="text"
+                                    placeholder="Your Location (optional)"
+                                    value={reviewForm.location}
+                                    onChange={(e) => setReviewForm({ ...reviewForm, location: e.target.value })}
+                                    style={{
+                                        padding: '12px 16px',
+                                        borderRadius: '12px',
+                                        border: '1.5px solid #E8F3F0',
+                                        fontSize: '14px',
+                                        outline: 'none',
+                                        transition: 'border-color 0.3s ease',
+                                        backgroundColor: '#FAFDFC'
+                                    }}
+                                    onFocus={(e) => e.target.style.borderColor = '#2A9D8F'}
+                                    onBlur={(e) => e.target.style.borderColor = '#E8F3F0'}
+                                />
+                            </div>
+
+                            {/* Star Rating */}
+                            <div style={{ marginTop: '16px', marginBottom: '16px' }}>
+                                <p style={{ fontSize: '14px', color: '#5a7a72', marginBottom: '8px' }}>Rating</p>
+                                <div style={{ display: 'flex', gap: '8px' }}>
+                                    {[1, 2, 3, 4, 5].map((star) => (
+                                        <button
+                                            key={star}
+                                            type="button"
+                                            onClick={() => setReviewForm({ ...reviewForm, rating: star })}
+                                            style={{
+                                                fontSize: '28px',
+                                                background: 'none',
+                                                border: 'none',
+                                                cursor: 'pointer',
+                                                color: star <= reviewForm.rating ? '#F59E0B' : '#E5E7EB',
+                                                transition: 'transform 0.2s ease'
+                                            }}
+                                            onMouseEnter={(e) => e.target.style.transform = 'scale(1.2)'}
+                                            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+                                        >
+                                            ★
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <textarea
+                                placeholder="Write your review..."
+                                required
+                                rows="4"
+                                value={reviewForm.text}
+                                onChange={(e) => setReviewForm({ ...reviewForm, text: e.target.value })}
+                                style={{
+                                    width: '100%',
+                                    padding: '12px 16px',
+                                    borderRadius: '12px',
+                                    border: '1.5px solid #E8F3F0',
+                                    fontSize: '14px',
+                                    outline: 'none',
+                                    resize: 'vertical',
+                                    transition: 'border-color 0.3s ease',
+                                    backgroundColor: '#FAFDFC',
+                                    fontFamily: 'inherit'
+                                }}
+                                onFocus={(e) => e.target.style.borderColor = '#2A9D8F'}
+                                onBlur={(e) => e.target.style.borderColor = '#E8F3F0'}
+                            />
+
+                            <button
+                                type="submit"
+                                disabled={reviewSubmitting}
+                                style={{
+                                    width: '100%',
+                                    marginTop: '16px',
+                                    padding: '14px',
+                                    background: reviewSubmitting ? '#94A3B8' : '#2A9D8F',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '12px',
+                                    fontSize: '16px',
+                                    fontWeight: 600,
+                                    cursor: reviewSubmitting ? 'not-allowed' : 'pointer',
+                                    transition: 'all 0.3s ease'
+                                }}
+                                onMouseEnter={(e) => {
+                                    if (!reviewSubmitting) e.target.style.background = '#238276';
+                                }}
+                                onMouseLeave={(e) => {
+                                    if (!reviewSubmitting) e.target.style.background = '#2A9D8F';
+                                }}
+                            >
+                                {reviewSubmitting ? 'Submitting...' : 'Submit Review'}
+                            </button>
+
+                            {reviewSubmitStatus && (
+                                <p style={{
+                                    marginTop: '12px',
+                                    textAlign: 'center',
+                                    fontSize: '14px',
+                                    color: reviewSubmitStatus === 'success' ? '#065F46' : '#991B1B'
+                                }}>
+                                    {reviewSubmitStatus === 'success' ? '✅ Thank you! Your review has been submitted for approval.' : '❌ Failed to submit review. Please try again.'}
+                                </p>
+                            )}
+                        </form>
+                    </motion.div>
+                </div>
+            </motion.section>
+
+            {/* CTA SECTION */}
             <motion.section
                 initial="hidden"
                 whileInView="visible"
