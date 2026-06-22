@@ -226,33 +226,33 @@ export default function Home() {
                 </div>
             )}
 
-            {/* HERO SECTION - MOBILE RESPONSIVE */}
-            <section className="relative h-screen min-h-[500px] flex items-center justify-center overflow-hidden">
+            {/* HERO SECTION - MOBILE FIXED */}
+            <section className="relative h-screen min-h-[400px] flex items-center justify-center overflow-hidden" style={{ marginTop: 0 }}>
+                {/* Video Background - Fixed for mobile */}
                 <div className="absolute inset-0">
                     <video
                         autoPlay
                         muted
                         loop
                         playsInline
-                        className="w-full h-full object-cover scale-105"
+                        className="w-full h-full object-cover"
                         poster="/videos/hero-poster.jpg"
-                        style={{
-                            filter: 'blur(2px)',
-                            transform: 'scale(1.05)'
-                        }}
                     >
                         <source src="/videos/hero-video.mp4" type="video/mp4" />
                     </video>
                 </div>
 
-                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-[#2A9D8F]/30 to-black/70" />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#2A9D8F]/20 to-[#1a2e2a]/30" />
+                {/* Simplified overlay - less blur on mobile */}
+                <div className="absolute inset-0 bg-black/50" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
 
+                {/* Content - better centered on mobile */}
                 <div className="relative z-10 container-premium text-center text-white px-4">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
+                        className="w-full"
                     >
                         <h1 className="hero-title" style={{
                             fontSize: 'clamp(2rem, 8vw, 8rem)',
@@ -270,15 +270,15 @@ export default function Home() {
                         </h1>
 
                         <p className="hero-subtitle" style={{
-                            fontSize: 'clamp(1rem, 2.5vw, 2.5rem)',
+                            fontSize: 'clamp(0.9rem, 2.5vw, 2.5rem)',
                             maxWidth: '950px',
                             margin: '0 auto clamp(1rem, 2vw, 2.5rem)',
-                            lineHeight: '1.5',
+                            lineHeight: '1.4',
                             textShadow: '0 2px 25px rgba(0,0,0,0.6)',
                             fontWeight: 500,
                             color: 'white',
-                            letterSpacing: '0.5px',
-                            padding: '0 10px'
+                            letterSpacing: '0.3px',
+                            padding: '0 5px'
                         }}>
                             Experience premium cleaning with eco-friendly products, professional team, and 100% satisfaction guarantee.
                         </p>
@@ -292,7 +292,7 @@ export default function Home() {
                                 color: '#2A9D8F',
                                 padding: 'clamp(12px, 2vw, 20px) clamp(24px, 4vw, 56px)',
                                 borderRadius: '9999px',
-                                fontSize: 'clamp(0.9rem, 1.5vw, 1.8rem)',
+                                fontSize: 'clamp(0.85rem, 1.5vw, 1.8rem)',
                                 fontWeight: 600,
                                 textDecoration: 'none',
                                 transition: 'all 0.3s ease',
@@ -320,19 +320,23 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* SERVICES SECTION - MOBILE RESPONSIVE */}
+            {/* SERVICES SECTION - REDUCED SPACING */}
             <motion.section
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
                 variants={fadeUp}
-                style={{ padding: 'clamp(40px, 6vw, 64px) 20px', backgroundColor: '#F0F7F4' }}
+                style={{
+                    padding: 'clamp(30px, 4vw, 64px) 20px',
+                    backgroundColor: '#F0F7F4',
+                    marginTop: 0
+                }}
             >
                 <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
                     <motion.h2
                         variants={fadeUp}
                         style={{
-                            fontSize: 'clamp(24px, 4vw, 32px)',
+                            fontSize: 'clamp(22px, 4vw, 32px)',
                             fontWeight: 'bold',
                             textAlign: 'center',
                             marginBottom: '8px',
@@ -346,7 +350,7 @@ export default function Home() {
                         style={{
                             textAlign: 'center',
                             color: '#5a7a72',
-                            marginBottom: 'clamp(30px, 5vw, 48px)',
+                            marginBottom: 'clamp(24px, 3vw, 48px)',
                             fontSize: 'clamp(14px, 1.5vw, 18px)',
                             padding: '0 10px'
                         }}
@@ -363,7 +367,7 @@ export default function Home() {
                         style={{
                             display: 'grid',
                             gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                            gap: 'clamp(20px, 3vw, 32px)'
+                            gap: 'clamp(16px, 2.5vw, 32px)'
                         }}
                     >
                         {services.map((service, index) => (
@@ -456,7 +460,7 @@ export default function Home() {
                             style={{
                                 textAlign: 'center',
                                 color: '#5a7a72',
-                                marginBottom: 'clamp(30px, 5vw, 48px)',
+                                marginBottom: 'clamp(24px, 3vw, 48px)',
                                 fontSize: 'clamp(14px, 1.5vw, 18px)'
                             }}
                         >
@@ -471,8 +475,8 @@ export default function Home() {
                             className="reviews-grid"
                             style={{
                                 display: 'grid',
-                                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                                gap: '24px'
+                                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                                gap: 'clamp(16px, 2vw, 24px)'
                             }}
                         >
                             {reviews.slice(0, 6).map((review, index) => (
@@ -521,14 +525,14 @@ export default function Home() {
                 </motion.section>
             )}
 
-            {/* REVIEW FORM SECTION - MOBILE RESPONSIVE */}
+            {/* REVIEW FORM SECTION */}
             <motion.section
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
                 variants={fadeIn}
                 style={{
-                    padding: 'clamp(40px, 6vw, 64px) 20px',
+                    padding: 'clamp(30px, 4vw, 64px) 20px',
                     backgroundColor: '#F0F7F4'
                 }}
             >
@@ -536,7 +540,7 @@ export default function Home() {
                     <motion.h2
                         variants={fadeUp}
                         style={{
-                            fontSize: 'clamp(24px, 4vw, 28px)',
+                            fontSize: 'clamp(22px, 4vw, 28px)',
                             fontWeight: 'bold',
                             textAlign: 'center',
                             color: '#1a2e2a',
@@ -550,7 +554,7 @@ export default function Home() {
                         style={{
                             textAlign: 'center',
                             color: '#5a7a72',
-                            marginBottom: 'clamp(24px, 3vw, 32px)',
+                            marginBottom: 'clamp(20px, 3vw, 32px)',
                             fontSize: 'clamp(14px, 1.5vw, 16px)'
                         }}
                     >
@@ -697,14 +701,14 @@ export default function Home() {
                 </div>
             </motion.section>
 
-            {/* CTA SECTION - MOBILE RESPONSIVE */}
+            {/* CTA SECTION */}
             <motion.section
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
                 variants={fadeIn}
                 style={{
-                    padding: 'clamp(40px, 6vw, 64px) 20px',
+                    padding: 'clamp(30px, 4vw, 64px) 20px',
                     background: 'linear-gradient(135deg, #2A9D8F, #238276)',
                     color: 'white',
                     textAlign: 'center'
@@ -714,9 +718,9 @@ export default function Home() {
                     <motion.h2
                         variants={fadeUp}
                         style={{
-                            fontSize: 'clamp(24px, 4vw, 32px)',
+                            fontSize: 'clamp(22px, 4vw, 32px)',
                             fontWeight: 'bold',
-                            marginBottom: '16px'
+                            marginBottom: '12px'
                         }}
                     >
                         Ready for a Clean Space?
@@ -724,7 +728,7 @@ export default function Home() {
                     <motion.p
                         variants={fadeUp}
                         style={{
-                            marginBottom: '24px',
+                            marginBottom: '20px',
                             opacity: 0.9,
                             fontSize: 'clamp(14px, 1.5vw, 18px)',
                             padding: '0 10px'
