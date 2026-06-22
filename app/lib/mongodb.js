@@ -1,24 +1,25 @@
-import { MongoClient, ServerApiVersion } from 'mongodb';
+import { MongoClient } from 'mongodb';
 
 const uri = process.env.MONGODB_URI;
 
 if (!uri) {
-    throw new Error('Please add MONGODB_URI to .env.local');
+    throw new Error('Please define the MONGODB_URI environment variable');
 }
 
 const options = {
-    serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true,
-    },
-    serverSelectionTimeoutMS: 10000,
+    serverSelectionTimeoutMS: 30000,
     socketTimeoutMS: 45000,
-    connectTimeoutMS: 10000,
+    connectTimeoutMS: 30000,
     maxPoolSize: 10,
     minPoolSize: 1,
     retryWrites: true,
     retryReads: true,
+    tls: true,
+    tlsAllowInvalidCertificates: false,
+    tlsAllowInvalidHostnames: false,
+    // Add SSL/TLS options for Vercel
+    ssl: true,
+    sslValidate: true,
 };
 
 let client;
