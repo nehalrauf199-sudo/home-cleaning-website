@@ -85,19 +85,38 @@ export default function AdminDashboard() {
         setUploading(true);
 
         try {
-            const formData = new FormData();
-            formData.append('title', serviceForm.title);
-            formData.append('description', serviceForm.description);
-            formData.append('shortDesc', serviceForm.shortDesc || '');
+            let imageUrl = '/images/service-home.jpg';
 
-            // Handle image - if it's a File object, append it
+            // Upload image if selected
             if (serviceForm.image && typeof serviceForm.image === 'object') {
+                const formData = new FormData();
                 formData.append('image', serviceForm.image);
+
+                const uploadRes = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const uploadData = await uploadRes.json();
+                if (uploadData.success) {
+                    imageUrl = uploadData.imageUrl;
+                } else {
+                    alert('Failed to upload image');
+                    setUploading(false);
+                    return;
+                }
             }
 
+            // Add service with image URL
             const res = await fetch('/api/services/add', {
                 method: 'POST',
-                body: formData
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title: serviceForm.title,
+                    description: serviceForm.description,
+                    shortDesc: serviceForm.shortDesc || '',
+                    image: imageUrl
+                })
             });
 
             if (res.ok) {
@@ -154,20 +173,39 @@ export default function AdminDashboard() {
         setUploading(true);
 
         try {
-            const formData = new FormData();
-            formData.append('id', editingService._id);
-            formData.append('title', serviceForm.title);
-            formData.append('description', serviceForm.description);
-            formData.append('shortDesc', serviceForm.shortDesc || '');
+            let imageUrl = serviceForm.image;
 
-            // Handle image - if it's a File object, append it
+            // Upload new image if selected
             if (serviceForm.image && typeof serviceForm.image === 'object') {
+                const formData = new FormData();
                 formData.append('image', serviceForm.image);
+
+                const uploadRes = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const uploadData = await uploadRes.json();
+                if (uploadData.success) {
+                    imageUrl = uploadData.imageUrl;
+                } else {
+                    alert('Failed to upload image');
+                    setUploading(false);
+                    return;
+                }
             }
 
+            // Update service with image URL
             const res = await fetch('/api/services/update', {
                 method: 'PUT',
-                body: formData
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: editingService._id,
+                    title: serviceForm.title,
+                    description: serviceForm.description,
+                    shortDesc: serviceForm.shortDesc || '',
+                    image: imageUrl
+                })
             });
 
             if (res.ok) {
